@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kyoto Travel Guide: Weather-Based Recommendations</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <style>
+            /* Reset some default styles and apply a background color */
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Fira Sans', sans-serif;
+                background-image: url('https://stories.weroad.it/wp-content/uploads/2023/01/kyoto-2.jpg');
+                background-size: cover; /* Cover the entire background */
+                background-position: center; /* Center the image */
+                background-repeat: no-repeat; /* Prevent repeating the image */
+                background-color: #e0e0e0; /* Fallback color */
+            }
+            /* Style the header and navigation */
+            header {
+                background-color: #003366; /* Dark blue */
+                color: #fff;
+                padding: 15px;
+                text-align: center;
+            }
+            nav ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+            }
+            nav li {
+                margin: 0 15px;
+            }
+            nav a {
+                text-decoration: none;
+                color: #fff;
+                font-weight: bold;
+            }
+            .navbar-brand {
+                color: #fff;
+            }
+            .navbar-brand:hover {
+                color: #cce0ff; /* Light blue */
+            }
+            /* Style the center container */
+            .center-container {
+                max-width: 1200px;
+                margin: 20px auto;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+            .card {
+                border: none;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+                margin-bottom: 20px;
+            }
+            .card-header {
+                background-color: #003366; /* Dark blue */
+                color: #fff;
+                padding: 15px;
+                border-bottom: 1px solid #ddd;
+            }
+            .card-body {
+                padding: 20px;
+                background-color: #fff;
+            }
+            /* Style the footer */
+            footer {
+                background-color: #003366; /* Dark blue */
+                color: #fff;
+                padding: 20px 0;
+                text-align: center;
+            }
+            .footer-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+            .footer-section {
+                flex: 1;
+                margin: 0 15px;
+                min-width: 200px;
+            }
+            .footer-section h3 {
+                margin-bottom: 10px;
+                color: #cce0ff; /* Light blue */
+            }
+            .social-links {
+                margin-top: 10px;
+            }
+            .social-icon {
+                display: inline-block;
+                margin-right: 10px;
+                font-size: 18px;
+                color: #fff;
+            }
+            #newsletter-form {
+                display: flex;
+                margin-top: 10px;
+            }
+            #newsletter-form input[type="email"] {
+                flex: 1;
+                padding: 8px;
+                border: 1px solid #003366; /* Dark blue */
+                border-radius: 4px;
+                margin-right: 10px;
+            }
+            #newsletter-form button {
+                background-color: #004080; /* Slightly lighter blue */
+                color: #fff;
+                border: none;
+                padding: 8px 15px;
+                cursor: pointer;
+            }
+            .footer-bottom {
+                margin-top: 20px;
+                text-align: center;
+            }
+            .clearSky {
+                background-image: url('https://cdn.pixabay.com/photo/2017/11/04/08/14/tree-2916763_1280.jpg');
+            }
+            .cloudy {
+                background-image: url('https://cdn.pixabay.com/photo/2019/08/07/09/58/surfers-4390427_1280.jpg');
+            }
+            .rainy {
+                background-image: url('https://cdn.pixabay.com/photo/2017/08/31/19/18/hiking-2701929_1280.jpg');
+            }
+            .thunderstorm {
+                background-image: url('https://cdn.pixabay.com/photo/2021/07/03/14/20/lightning-6383992_1280.jpg');
+            }
+            .snowy {
+                background-image: url('https://cdn.pixabay.com/photo/2016/01/22/20/42/man-1156619_1280.jpg');
+            }
+            .foggy {
+                background-image: url('https://cdn.pixabay.com/photo/2017/08/15/15/44/the-fog-2644411_1280.jpg');
+            }
+            .defaultBackground {
+                background-image: url('https://www.creativefabrica.com/wp-content/uploads/2020/08/12/Sky-Weather-Summer-Winter-Cloudy-Clipart-Graphics-4945560-1-1-580x386.png');
+            }
+            #weatherSection
+            {
+                display: inline-block;
+                width: calc(50% - 10px);
+                box-sizing: border-box;
+                vertical-align: top;
+                height: 300px;
+            }
+            #weatherSection {
+                background-size: cover;
+                position: relative;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                color: #fff;
+                margin-bottom: 20px;
+
+            }
+            #weatherSection::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                border-radius: 8px;
+                z-index: 0;
+            }
+            #weatherSection h2,
+            #weatherInfo,
+            button#getWeather {
+                position: relative;
+                z-index: 1;
+            }
+
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Kyoto Travel Guide: Weather-Based Recommendations</h1>
+            <nav>
+                <ul>
+                    <li><a href="#weather">Weather</a></li>
+                    <li><a href="#about">About Kyoto</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="center-container">
+            <div id="weatherSection" class="defaultBackground">
+                <br>
+
+                <h2>Real-time Weather</h2>
+                <div id="weatherInfo">
+                    <p id="temperature"></p>
+                    <p id="description"></p>
+                </div>
+                <br>
+                <button id="getWeather">View Weather</button>
+                <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                <script src="weather.js"></script>
+            </div>
+
+
+            <div id="aboutSection" class="card">
+                <div class="card-header">
+                    <h2>About Kyoto</h2>
+                </div>
+                <div class="card-body">
+                    <h3>Welcome to Kyoto</h3>
+                    <p>Kyoto, once the capital of Japan, is known for its historic temples, beautiful gardens, and traditional tea houses. It's a city that seamlessly blends old-world charm with modern convenience. Whether you’re interested in exploring ancient shrines, enjoying seasonal festivals, or sampling delicious Japanese cuisine, Kyoto offers a variety of experiences for every traveler.</p>
+                    <h4>Top Attractions:</h4>
+                    <ul>
+                        <li>Fushimi Inari Shrine - Famous for its thousands of red torii gates.</li>
+                        <li>Kinkaku-ji (Golden Pavilion) - A stunning gold-leaf-covered temple surrounded by serene gardens.</li>
+                        <li>Arashiyama Bamboo Grove - A mesmerizing bamboo forest ideal for nature lovers.</li>
+                        <li>Kiyomizu-dera - A historic temple offering panoramic views of Kyoto.</li>
+                    </ul>
+                    <h4>Seasonal Tips:</h4>
+                    <p>Kyoto’s weather varies greatly throughout the year. During the cherry blossom season (spring), the city is filled with beautiful pink blooms. Summer can be hot and humid, so dress lightly and stay hydrated. Autumn brings vibrant fall colors, making it an excellent time for sightseeing. Winter is chilly but offers fewer crowds and a chance to enjoy seasonal festivals.</p>
+                </div>
+            </div>
+
+            <div id="loginFormSection" class="card">
+                <div class="card-header">
+                    <h2>Login Form</h2>
+                </div>
+                <div class="card-body">
+                    <form action="#" method="post" id="loginForm">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required>
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                        <button type="submit">Login</button>
+                    </form>
+                    <script src="login.js"></script>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-container">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <p>We are dedicated to providing the best travel experience in Kyoto through accurate weather-based recommendations.</p>
+                    <a href="#about" style="color: #cce0ff;">Read More</a>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Newsletter</h3>
+                    <p>Stay updated with our latest news and offers. Subscribe to our newsletter!</p>
+                    <form id="newsletter-form">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/YourFacebookPage" class="social-icon"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.twitter.com/YourTwitterProfile" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/YourInstagramProfile" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>Email: contact@kyototravelguide.com</p>
+                    <p>Phone: +81 123 456 789</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2024 Kyoto Travel Guide. Group_No_03 All Rights Reserved.
+            </div>
+        </footer>
+    </body>
+</html>

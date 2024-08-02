@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Today Task To Do</title>
+         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="task.js"></script>
+
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color: #f5f5f5; /* Light grey background */
+                margin: 0;
+                padding: 0;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+            header {
+                background-color: #003366; /* Dark blue */
+                color: #fff;
+                padding: 15px;
+                text-align: center;
+                position: relative;
+            }
+
+            #homeIcon {
+                font-size: 60px;
+                color: #003366;
+                text-decoration: none;
+                margin-right: 10px;
+            }
+
+            #taskSection {
+                max-width: 800px;
+                margin: 20px auto;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                display: flex;
+                flex-direction: column; /* Change to row layout */
+                align-items: center;
+                justify-content: space-between;
+            }
+            .taskContent {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            h2 {
+                color: #003366; /* Dark blue */
+                margin-bottom: 20px;
+            }
+            .date {
+                font-size: 24px;
+                color: #003366; /* Dark blue */
+                margin-bottom: 20px;
+            }
+            #getTasks {
+                background-color: #003366; /* Dark blue */
+                color: white;
+                padding: 15px 30px;
+                font-size: 16px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+            #getTasks:hover {
+                background-color: #004080; /* Slightly lighter blue */
+                color: #fff;
+                box-shadow: 1px 2px 2px rgba(0,0,0,0.1);
+            }
+
+            #taskTable {
+                max-width: 800px;
+                margin: 20px auto;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+
+            th, td {
+                border: 1px solid #dee2e6;
+                padding: 8px;
+                text-align: left;
+            }
+
+            th {
+                background-color: #003366; /* Dark blue */
+                color: white;
+            }
+
+            .logout-button {
+                background-color: #d9534f; /* Red */
+                color: #fff;
+                border: none;
+                padding: 10px 15px;
+                cursor: pointer;
+                border-radius: 4px;
+                font-size: 14px;
+                position: absolute;
+                top: 15px;
+                right: 15px;
+            }
+
+            .logout-button:hover {
+                background-color: #c9302c; /* Darker red */
+            }
+
+            footer {
+                background-color: #003366; /* Dark blue */
+                color: #fff;
+                padding: 20px 0;
+                margin-top: auto;
+            }
+
+            .footer-container {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                padding: 0 20px;
+            }
+
+            .footer-section {
+                flex: 1;
+                margin: 0 15px;
+                min-width: 200px;
+            }
+
+            .footer-section h3 {
+                margin-bottom: 10px;
+                color: #cce0ff; /* Light blue */
+            }
+
+            .social-links {
+                margin-top: 10px;
+            }
+
+            .social-icon {
+                display: inline-block;
+                margin-right: 10px;
+                font-size: 18px;
+                color: #fff;
+            }
+
+            #newsletter-form {
+                display: flex;
+                margin-top: 10px;
+            }
+
+            #newsletter-form input[type="email"] {
+                flex: 1;
+                padding: 8px;
+                border: 1px solid #fff;
+                border-radius: 4px;
+                margin-right: 10px;
+            }
+
+            #newsletter-form button {
+                background-color: #004080; /* Slightly lighter blue */
+                color: #fff;
+                border: none;
+                padding: 8px 15px;
+                cursor: pointer;
+                font-size: 14px;
+            }
+
+            .footer-bottom {
+                margin-top: 20px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Best Place to Travel Today</h1>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </header>
+
+        <div id="taskSection">
+            <a href="home.html" id="homeIcon">
+                <i class="fas fa-home"></i>
+            </a>
+
+            <div class="taskContent">
+                <div id="date" class="date"></div>
+                <form method="get">
+                    <input type="button" value="View Places" id="getTasks" class="btn btn-primary">
+                </form>
+            </div>
+        </div>
+
+        <!-- Task table section -->
+        <div id="taskTable" style="display:none;">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Best Date</th>
+                        <th>Best Time To Travel</th>
+                        <th>Place</th>
+                    </tr>
+                </thead>
+                <tbody id="taskTableBody"></tbody>
+            </table>
+        </div>
+
+        <footer>
+            <div class="footer-container">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <p>We are dedicated to providing the best travel experience in Kyoto through accurate weather-based recommendations.</p>
+                    <a href="#about" style="color: #cce0ff;">Read More</a>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Newsletter</h3>
+                    <p>Stay updated with our latest news and offers. Subscribe to our newsletter!</p>
+                    <form id="newsletter-form">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/YourFacebookPage" class="social-icon"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.twitter.com/YourTwitterProfile" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/YourInstagramProfile" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>Email: contact@kyototravelguide.com</p>
+                    <p>Phone: +81 123 456 789</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2024 Kyoto Travel Guide. Group_No_03 All Rights Reserved.
+            </div>
+        </footer>
+
+
+        <script>
+
+            function getTodayDate() {
+                const today = new Date();
+                const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+                return today.toLocaleDateString('en-US', options);
+            }
+            document.getElementById('date').innerText = getTodayDate();
+            $(document).ready(function () {
+                // Hide the task table and add task form initially
+                $("#taskTable").hide();
+                // Show the task table on button click
+                $("#getTasks").on("click", function () {
+                    $("#taskTable").show();
+                });
+
+
+            });
+        </script>
+    </body>
+</html>
